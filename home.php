@@ -350,12 +350,12 @@
         }else{
             //   var_dump($files);
 
-            for ($x = 0; $x < count($files); $x++) {
-                $file = $files[$x];
+            for ($x = 0; $x < 5; $x++) {
+                
                 //        echo  $gallery.$file;
 
-
-                $file = $files[$x];
+              $rand_idx = rand(0, count($files) / 2 - 1);
+                $file = $files[$rand_idx];
                 if (is_file($gallery . "/" . $file)) {
             ?>
                     <div class="card">
@@ -835,12 +835,38 @@
 
         setInterval(() => {
             if (!focused) {
-                document.getElementById('cardDeck').scrollLeft += 100;
-                if (cardDeck.scrollLeft + window.innerWidth >= cardDeck.scrollWidth) {
-                    document.getElementById('cardDeck').scrollLeft = 0;
-                }
+                    // for($x = 0; $x < 5; $x ++){
+                    //     $rand_idx = rand(0, count($files) / 2 - 1);
+                    //     $file = $files[$rand_idx];
+                    //     // document.getElementsByClassName('card')[$x].setAttribute
+                    //     console.log(document.getElementsByClassName('card')[$x]);
+                    // }
+                    
+                    // console.log('AA:', rand_idx);
+
+                    const elems = document.getElementsByClassName('card');
+                    const rand_count = <?php echo count($files) ?>;
+                    
+                    const files = <?php echo json_encode($files); ?>;
+                    const rand_idxs = [];
+               
+                    while(rand_idxs.length < 5){
+                        var r = Math.floor(Math.random()*rand_count/2);
+                        if(rand_idxs.indexOf(r) === -1) rand_idxs.push(r);
+                    }
+                    console.log(rand_idxs);
+                    for (let i = 0 ; i < 5; i ++) {
+                        const imgElem = elems[i].getElementsByTagName('img')[0];
+                        const imgUrl = <?php echo json_encode($ownpath1); ?> + 'gallery/img/gallery/' + files[rand_idxs[i]];
+                        imgElem.src = imgUrl;
+                        // console.log(imgUrl);
+
+
+                        
+                     }
+            //   alert('23432rf');
             }
-        }, 1000);
+        }, 5000);
 </script>
 <script>
 

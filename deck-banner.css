@@ -1,0 +1,94 @@
+.card-deck-grid {
+  --translate: 0px;
+  --relation: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #191919;
+  overflow-x: auto;
+  padding: 40px 0 40px 40px;
+  scrollbar-color: #434343 #191919;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  justify-content: center;
+}
+
+.card-deck-grid::-webkit-scrollbar {
+  width: 7px;
+  height:20px;
+}
+
+.card-deck-grid::-webkit-scrollbar-thumb {
+  background-color: #434343;
+  border-radius: 50px;
+}
+
+.card-deck-grid>.card {
+  position: relative;
+  width: calc(350px * var(--relation));
+  max-width: calc(350px * var(--relation));
+  min-width: calc(350px * var(--relation));
+  height: calc(500px * var(--relation));
+  margin-right: calc(20px * var(--relation));
+  border-radius: 10px;
+  background-color: #000;
+  -webkit-box-shadow: calc(-48px * var(--relation)) 0 calc(60px * var(--relation)) calc(-22px * var(--relation)) #000;
+          box-shadow: calc(-48px * var(--relation)) 0 calc(60px * var(--relation)) calc(-22px * var(--relation)) #000;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+          transition: transform 1s;
+  /* -webkit-transform: translateX(var(--translate));
+          transform: translateX(var(--translate));
+  -webkit-transition: -webkit-transform 0.2s ease-out;
+  transition: -webkit-transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out, -webkit-transform 0.2s ease-out; */
+}
+
+.card-deck-grid>.card {
+ /* -webkit-transform: rotate(-4deg);
+          transform: rotateY(360deg);
+          z-index: 100; */
+          animation-timing-function: linear;
+          animation-direction: alternate;
+          animation-name: two;
+          animation-duration: 5s;
+          animation-iteration-count: infinite;
+}
+@keyframes two {
+  0% {
+    transform: rotateY(0);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.card-deck-grid>.card>img {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 1000px) {
+  .card-deck-grid {
+    --relation: 0.8;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card-deck-grid {
+    --relation: 0.7;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card-deck-grid {
+    --relation: 0.6;
+  }
+}
