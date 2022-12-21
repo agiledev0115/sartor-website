@@ -350,16 +350,30 @@
         }else{
             //   var_dump($files);
 
-            for ($x = 0; $x < 5; $x++) {
-                
-                //        echo  $gallery.$file;
+            $random_number_array = range(0, count($files) / 2 - 1);
+            shuffle($random_number_array );
+            $random_number_array = array_slice($random_number_array ,0,10);
 
-              $rand_idx = rand(0, count($files) / 2 - 1);
-                $file = $files[$rand_idx];
-                if (is_file($gallery . "/" . $file)) {
+            for ($x = 0; $x < 5; $x++) {
+                // $file = $files[$x];
+                //        echo  $gallery.$file;
+            $file = $files[$random_number_array[$x]];
+            $file1 = $files[$random_number_array[$x * 2 + 1]];
+                
+            if (is_file($gallery . "/" . $file) && is_file($gallery . "/" . $file1)) {
             ?>
                     <div class="card">
-                        <img src="<?php echo $ownpath1; ?>gallery/img/gallery/<?php echo $file ?>" alt="" />
+                        <div class="flip-box">
+                            <div class="flip-box-inner">
+                                <div class="flip-box-front">
+                                <img src="<?php echo $ownpath1; ?>gallery/img/gallery/<?php echo $file ?>" alt="" />
+                                </div>
+                                <div class="flip-box-back">
+                                <img src="<?php echo $ownpath1; ?>gallery/img/gallery/<?php echo $file1 ?>" alt="" />
+                                </div>
+                            </div>
+                        </div>
+        
                     </div>
             <?php
                 } else {
@@ -833,39 +847,41 @@
             focused = false;
         });
 
+        let d = 0;
         setInterval(() => {
             if (!focused) {
-                    // for($x = 0; $x < 5; $x ++){
-                    //     $rand_idx = rand(0, count($files) / 2 - 1);
-                    //     $file = $files[$rand_idx];
-                    //     // document.getElementsByClassName('card')[$x].setAttribute
-                    //     console.log(document.getElementsByClassName('card')[$x]);
-                    // }
+                const elems = document.getElementsByClassName('card');
+                     rand_count = <?php echo count($files) ?>;
                     
-                    // console.log('AA:', rand_idx);
-
-                    const elems = document.getElementsByClassName('card');
-                    const rand_count = <?php echo count($files) ?>;
-                    
-                    const files = <?php echo json_encode($files); ?>;
-                    const rand_idxs = [];
+                     files = <?php echo json_encode($files); ?>;
+                     rand_idxs = [];
                
-                    while(rand_idxs.length < 5){
+                    while(rand_idxs.length < 10){
                         var r = Math.floor(Math.random()*rand_count/2);
                         if(rand_idxs.indexOf(r) === -1) rand_idxs.push(r);
                     }
-                    console.log(rand_idxs);
-                    for (let i = 0 ; i < 5; i ++) {
-                        const imgElem = elems[i].getElementsByTagName('img')[0];
-                        const imgUrl = <?php echo json_encode($ownpath1); ?> + 'gallery/img/gallery/' + files[rand_idxs[i]];
-                        imgElem.src = imgUrl;
-                        // console.log(imgUrl);
+                    // console.log(rand_idxs);
+                    $(".card-deck-grid .card").addClass("active")
+                    d +=180;
+                    $(".flip-box-inner").css("transform","rotateY("+d+"deg)")
 
-
-                        
-                     }
-            //   alert('23432rf');
+                    setTimeout(() => {
+                        if((d/180)%2===1){
+                        $(".flip-box-front").each(function(idx, e){
+                            $(this).find("img").attr("src", <?php echo json_encode($ownpath1); ?> + 'gallery/img/gallery/' + files[rand_idxs[idx]]);
+                        })
+                    }
+                    else
+                        $(".flip-box-back").each(function(idx, e){
+                            $(this).find("img").attr("src", <?php echo json_encode($ownpath1); ?> + 'gallery/img/gallery/' + files[rand_idxs[idx]]);
+                        })
+                    }, 2000);
             }
+            // if($(".card-deck-grid .card").hasClass("active")){
+            //     $(".card-deck-grid .card").removeClass("active")
+            // }
+           
+            
         }, 5000);
 </script>
 <script>
